@@ -11,7 +11,7 @@ class Weather {
   }
 
   public function getDatum() {
-    return $this->datum.format("Y-m-d");
+    return $this->datum->format("Y-m-d");
   }
 
   public function getHomerseklet() {
