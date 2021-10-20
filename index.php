@@ -35,13 +35,14 @@ $weatherRows = Weather::getAll();
         </div>
       </div>
       <div class="row mt-5 py-3">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-8 bg-secondary rounded p-3 pb-0 mx-auto">
           <table class="table table-dark table-striped">
             <tr>
               <th>#</th>
               <th>Datum</th>
               <th>Homerseklet</th>
               <th>Leiras</th>
+              <th colspan="2">Modositas</th>
             </tr>
             <?php
 
@@ -52,6 +53,8 @@ $weatherRows = Weather::getAll();
               echo "<td>" . $item->getDatum() . "</td>";
               echo "<td>" . $item->getHomerseklet() . "</td>";
               echo "<td>" . $item->getLeiras() . "</td>";
+              echo "<td><a href='edit.php'>Szerkesztes</a></td>";
+              echo "<td><button class='btn btn-danger'>Torles</button></td>";
 
               echo "</tr>";
             }
