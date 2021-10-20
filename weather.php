@@ -10,6 +10,10 @@ class Weather {
     return $this->id;
   }
 
+  public function setId(int $id) {
+    $this->id = $id;
+  }
+
   public function getDatum() {
     return $this->datum->format("Y-m-d");
   }
@@ -40,6 +44,20 @@ class Weather {
         $eredmeny[] = $bejegyzes;
       }
       return $eredmeny;
+    }
+
+    public function saveRow() {
+      global $db;
+
+      $db->prepare('INSERT INTO weather (datum, homerseklet, leiras) VALUES (:datum, :homerseklet, :leiras)')
+        ->execute([':datum' => $this->getDatum(), ':homerseklet' => $this->homerseklet, ':leiras' => $this->leiras]);
+    }
+
+    public static function delete(int $id) {
+      global $db;
+
+      $db->prepare('DELETE FROM weather WHERE id = :id')
+      ->execute([':id' => $id]);
     }
 
     public function __toString() {

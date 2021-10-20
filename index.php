@@ -3,6 +3,25 @@
 require_once 'db.php';
 require_once 'weather.php';
 
+
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+  $deleteId = $_POST['deleteId'] ?? '';
+
+  if ($deleteId !== '') {
+    Weather::delete($deleteId);
+  }
+
+  $datum = $_POST['datum'] ?? "error";
+  $homerseklet = $_POST['homerseklet'] ?? "error";
+  $leiras = $_POST['leiras'] ?? "error";
+
+  if ($datum !== "error" && $homerseklet !== "error" && $leiras !== "error") {
+    $saveWeather = new Weather(new DateTime($datum), $homerseklet, $leiras);
+    $saveWeather->saveRow();
+  }
+}
+
 $weatherRows = Weather::getAll();
 
  ?><!DOCTYPE html>
@@ -20,17 +39,17 @@ $weatherRows = Weather::getAll();
           <form class="" method="post">
             <div class="input-group mb-3">
               <span class="input-group-text w-25" id="basic-addon1">Datum</span>
-              <input type="date" class="form-control" placeholder="Username">
+              <input name="datum" type="date" class="form-control" placeholder="Username">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text w-25" id="basic-addon1">Homerseklet</span>
-              <input type="number" class="form-control" placeholder="Homerseklet">
+              <input name="homerseklet" type="number" class="form-control" placeholder="Homerseklet">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text w-25" id="basic-addon1">Leiras</span>
-              <input type="text" class="form-control" placeholder="Leiras (esos, napos, felhos...)">
+              <input name="leiras" type="text" class="form-control" placeholder="Leiras (esos, napos, felhos...)">
             </div>
-            <input class="btn btn-success" type="submit" value="Hozzaads">
+            <input class="btn btn-success" type="submit" value="Hozzaadas">
           </form>
         </div>
       </div>
@@ -53,8 +72,9 @@ $weatherRows = Weather::getAll();
               echo "<td>" . $item->getDatum() . "</td>";
               echo "<td>" . $item->getHomerseklet() . "</td>";
               echo "<td>" . $item->getLeiras() . "</td>";
-              echo "<td><a href='edit.php'>Szerkesztes</a></td>";
-              echo "<td><button class='btn btn-danger'>Torles</button></td>";
+              echo "<form method='post'><input name='deleteId' type='hidden' value=" . $item->getId() . ">";
+              echo "<td><a href='edit.php?id=" . $item->getId() . "'>Szerkesztes</a></td>";
+              echo "<td><input type='submit' class='btn btn-danger' value='Torles'></form></td>";
 
               echo "</tr>";
             }
