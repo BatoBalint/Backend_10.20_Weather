@@ -6,6 +6,22 @@ class Weather {
   private $homerseklet;
   private $leiras;
 
+  public function getId() {
+    return $this->id;
+  }
+
+  public function getDatum() {
+    return $this->datum.format("Y-m-d");
+  }
+
+  public function getHomerseklet() {
+    return $this->homerseklet;
+  }
+
+  public function getLeiras() {
+    return $this->leiras;
+  }
+
   public function __construct(DateTime $datum, int $homerseklet, String $leiras) {
     $this->datum = $datum;
     $this->homerseklet = $homerseklet;
